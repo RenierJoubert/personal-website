@@ -8,18 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --light:       #09090a;
-      --lightgray:   #c7c7c7;
-      --gray:        #c7c7c7;
-      --darkgray:    #c7c7c7;
-      --dark:        #c7c7c7;
-      --secondary:   #c7c7c7;
-      --tertiary:    #c7c7c7;
-      --highlight:   #c7c7c7;
-      --textHL:      #c7c7c7;
-    }
- 
+   :root {
+      --light:     #09090a; /* background */
+      --gray:      #888784; /* borders */
+      --darkgray:  #6b6a65; /* tagline */
+      --dark:      #b0afa8; /* bio */
+      --secondary: #b0afa8; /* links */
+      --tertiary:  #e8e8e6; /* name */
+      --highlight: #6b6a65; /* underline */
+    } 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
  
     html, body {
@@ -78,7 +75,7 @@
     h1 {
       font-family: 'Inter Tight', monospace;
       font-weight: 500;
-      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
       color: var(--tertiary);
       letter-spacing: 0.06em;
       margin-bottom: 0.15rem;
@@ -86,13 +83,13 @@
  
     .tagline {
       font-family: 'Inter Tight', monospace; 
-      font-size: 0.90rem;
+      font-size: 0.85rem;
       color: var(--darkgray);
     }
  
     /* bio */ 
     .bio {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       color: var(--dark);
       max-width: 52ch;
       animation: fadeIn 0.9s ease 0.25s both;
