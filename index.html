@@ -19,9 +19,9 @@
       --highlight:   rgba(127, 180, 255, 0.14);
       --textHL:      rgba(127, 180, 255, 0.28);
     }
-
+ 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     html, body {
       height: 100%;
       background: var(--light);
@@ -32,7 +32,7 @@
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
-
+ 
     /* layout */
     .page {
       min-height: 100vh;
@@ -40,10 +40,17 @@
       grid-template-rows: 1fr auto;
       padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 8vw, 6rem);
       max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
     }
-
-    main { display: flex; flex-direction: column; gap: 2.8rem; }
-
+ 
+    main { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 2.8rem; 
+      align-items: center;
+    }
+ 
     /* the cube */ 
     .cube-wrap {
       font-family: 'IBM Plex Mono', monospace;
@@ -56,12 +63,12 @@
       user-select: none;
       animation: fadeIn 1.2s ease both;
     }
-
+ 
     /* header */ 
     .name-block {
       animation: fadeIn 0.9s ease 0.1s both;
     }
-
+ 
     h1 {
       font-family: 'Inter Tight', monospace;
       font-weight: 400;
@@ -70,13 +77,13 @@
       letter-spacing: 0.06em;
       margin-bottom: 0.15rem;
     }
-
+ 
     .tagline {
       font-family: 'Inter Tight', monospace; 
       font-size: 0.95rem;
       color: var(--darkgray);
     }
-
+ 
     /* bio */ 
     .bio {
       font-size: 1.07rem;
@@ -84,7 +91,7 @@
       max-width: 52ch;
       animation: fadeIn 0.9s ease 0.25s both;
     }
-
+ 
     .bio a {
       color: var(--secondary);
       text-decoration: none;
@@ -95,7 +102,7 @@
       color: var(--tertiary);
       border-color: var(--secondary);
     }
-
+ 
     /* links */ 
     .links {
       display: flex;
@@ -103,13 +110,11 @@
       gap: 0.2rem 0;
       animation: fadeIn 0.9s ease 0.4s both;
     }
-
+ 
     .links a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: lowercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: var(--darkgray);
       text-decoration: none;
       padding: 0.35rem 0.75rem;
@@ -117,44 +122,59 @@
       border-radius: 2px;
       transition: color 0.2s, border-color 0.2s, background 0.2s;
     }
+    .links a svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      transition: fill 0.2s;
+    }
     .links a:hover {
       color: var(--secondary);
       border-color: var(--gray);
       background: var(--highlight);
     }
-
+ 
   </style>
 </head>
 <body>
 <div class="page">
   <main>
     <div class="cube-wrap" id="cube" aria-hidden="true"></div>
-
+ 
     <div class="name-block">
       <h1>Renier Joubert</h1>
       <p class="tagline">renierjoubert05 [at] protonmail [dot] com.</p>
     </div>
-
+ 
     <p class="bio">
       Hi I'm Renier, I'll be entering my fourth year studying Mathematics and Computer Science @ UBC this fall, in my time outside of classes you can find me self studying ML/RL, playing chess, or reading. Right now I'm working on onboarding my <a href="https://renierj.dev" target="_blank" rel="noopener">second brain</a> and reading Simulacra and Simulation by Jean Baudrillard. 
     </p>
-
+ 
     <nav class="links">
-      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.linkedin.com/in/renier-joubert/"_blank" rel="noopener">linkedin</a>
-      
+      <!-- Git logo -->
+      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener" aria-label="Git / GitHub">
+        <svg viewBox="0 0 92 92" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M90.156 41.965 50.036 1.848a5.918 5.918 0 0 0-8.372 0l-8.328 8.332 10.566 10.566a7.03 7.03 0 0 1 7.23 1.684 7.043 7.043 0 0 1 1.679 7.265l10.187 10.184a7.028 7.028 0 0 1 7.268 1.673 7.044 7.044 0 0 1 0 9.957 7.044 7.044 0 0 1-9.96 0 7.05 7.05 0 0 1-1.528-7.661l-9.5-9.497V59.36a7.044 7.044 0 0 1 1.86 11.29 7.04 7.04 0 0 1-9.957 0 7.044 7.044 0 0 1 0-9.957 7.053 7.053 0 0 1 2.304-1.539V32.926a7.035 7.035 0 0 1-2.304-1.535 7.05 7.05 0 0 1-1.54-7.698L29.906 13.128 1.851 41.18a5.92 5.92 0 0 0 0 8.372l40.12 40.122a5.923 5.923 0 0 0 8.375 0l39.81-39.81a5.92 5.92 0 0 0 0-8.899"/>
+        </svg>
+      </a>
+      <!-- LinkedIn logo -->
+      <a href="https://www.linkedin.com/in/renier-joubert/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
     </nav>
   </main> 
 </div>
-
+ 
 <script>
 // Cube Rendering 
 (function () {
   const W = 52, H = 22;          // canvas size in characters
   const CHARS = '.,-~:;=!*#$@'; // brightness map
-
+ 
   let A = 0.5, B = 0.4, C = 0.3; // rotation angles
-
+ 
   function project(x, y, z) {
     // rotate around X axis by A
     let y1 = y * Math.cos(A) - z * Math.sin(A);
@@ -165,21 +185,21 @@
     // rotate around Z axis by C
     let x3 = x2 * Math.cos(C) - y1 * Math.sin(C);
     let y3 = x2 * Math.sin(C) + y1 * Math.cos(C);
-
+ 
     const K1 = 28, K2 = 5;
     const ooz = 1 / (z2 + K2);
     const xp = Math.round(W / 2 + K1 * x3 * ooz * 2);
     const yp = Math.round(H / 2 - K1 * y3 * ooz);
     return { xp, yp, ooz };
   }
-
+ 
   function renderFrame() {
     const buf = new Array(W * H).fill(' ');
     const zbuf = new Array(W * H).fill(0);
-
+ 
     const S = 1.0; // half-size of cube
     const step = 0.055;
-
+ 
     // iterate over each face by fixing one axis and sweeping the other two
     const faces = [
       // [normal_axis, normal_val, ch_index]
@@ -192,7 +212,7 @@
       (u, v) => [u, -S, v],
     ];
     const charIdx = [10, 8, 6, 4, 11, 2]; // different brightness per face
-
+ 
     for (let fi = 0; fi < faces.length; fi++) {
       for (let u = -S; u <= S; u += step) {
         for (let v = -S; v <= S; v += step) {
@@ -207,7 +227,7 @@
         }
       }
     }
-
+ 
     // assemble rows
     let out = '';
     for (let r = 0; r < H; r++) {
@@ -215,9 +235,9 @@
     }
     return out;
   }
-
+ 
   const el = document.getElementById('cube');
-
+ 
   function tick() {
     el.textContent = renderFrame();
     A += 0.012;
@@ -225,7 +245,7 @@
     C += 0.007;
     requestAnimationFrame(tick);
   }
-
+ 
   tick();
 })();
 </script>
