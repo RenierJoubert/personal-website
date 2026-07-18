@@ -9,15 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
   <style>
    :root {
-      --light:     #09090a; /* background */
-      --gray:      #888784; /* borders */
-      --darkgray:  #6b6a65; /* tagline */
-      --dark:      #b0afa8; /* bio */
-      --secondary: #b0afa8; /* links */
-      --tertiary:  #e8e8e6; /* name */
-      --highlight: #6b6a65; /* underline */
-    } 
+      /* base16 black-metal-gorgoroth */
+      --light:     #000000; /* background (base00) */
+      --gray:      #444444; /* borders (base0F) */
+      --darkgray:  #888888; /* tagline (base0D) */
+      --dark:      #c1c1c1; /* bio (base05) */
+      --secondary: #888888; /* links (base0D) */
+      --tertiary:  #d6d2c8; /* name */
+      --highlight: #444444; /* underline (base0F) */
+      --accent:    #999999; /* cube (base04) */
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    ::selection { background: #333333; color: #d6d2c8; }
  
     html, body {
       height: 100%;
@@ -59,7 +63,7 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: clamp(7px, 1.4vw, 11px);
       line-height: 1.15;
-      color: var(--secondary);
+      color: var(--accent);
       opacity: 0.72;
       letter-spacing: 0.04em;
       white-space: pre;
