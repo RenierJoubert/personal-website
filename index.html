@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="Renier Joubert" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Renier Joubert">
   <title>Renier</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&family=IM+Fell+DW+Pica&family=Red+Hat+Mono:wght@300&display=swap">
   <style>
-   :root {
+    :root {
       /* base16 black-metal-gorgoroth */
       --light:     #000000; /* background (base00) */
-      --gray:      #444444; /* borders (base0F) */
+      --dark:      #c1c1c1; /* body text (base05) */
       --darkgray:  #888888; /* tagline (base0D) */
-      --dark:      #c1c1c1; /* bio (base05) */
       --secondary: #888888; /* links (base0D) */
-      --tertiary:  #d6d2c8; /* name */
-      --highlight: #444444; /* underline (base0F) */
+      --tertiary:  #d6d2c8; /* name, link hover */
+      --highlight: #444444; /* link underline (base0F) */
       --accent:    #999999; /* cube (base04) */
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    ::selection { background: #333333; color: #d6d2c8; }
- 
+      --content-width: 59rem; /* hero and bio share this so their edges line up */
+      --photo-size: 220px;    /* headshot; the cube's height is derived from it */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ::selection { background: #333333; color: var(--tertiary); }
+    ::-webkit-scrollbar { display: none; }
+
     html, body {
       height: 100%;
       background: var(--light);
@@ -34,148 +35,137 @@
       font-weight: 300;
       font-size: 15px;
       line-height: 1.65;
-      -webkit-font-smoothing: antialiased; 
+      -webkit-font-smoothing: antialiased;
       scrollbar-width: none;
     }
 
-    html::-webkit-scrollbar,
-    body::-webkit-scrollbar {
-      display: none;
-    }
- 
-    /* layout */
-    .page {
-      min-height: 100svh;
-      display: grid;
-      grid-template-rows: 1fr auto;
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem; /* space between hero and bio */
       padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 8vw, 6rem);
-      max-width: 2000px;
-      margin: 0 auto;
       text-align: center;
     }
- 
-    main { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 2.8rem; 
-      align-items: center;
-    }
- 
-    /* the cube */ 
-    .cube-wrap {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(7px, 1.4vw, 11px);
-      line-height: 1.15;
-      color: var(--accent);
-      opacity: 0.72;
-      letter-spacing: 0.04em;
-      white-space: pre;
-      user-select: none;
-      animation: fadeIn 1.2s ease both;
-    }
- 
-    /* header */ 
-    .name-block {
-      animation: fadeIn 0.9s ease 0.1s both;
-    }
- 
-    h1 {
-      font-family: 'IM Fell DW Pica';
-      font-weight: 500;
-      font-size: clamp(2.3rem, 4vw, 2.6rem);
-      color: var(--tertiary);
-      letter-spacing: 0.06em;
-      margin-bottom: 0.15rem;
-    }
- 
-    .tagline {
-      font-family: 'Red Hat Mono', monospace; 
-      font-size: 0.85rem;
-      color: var(--darkgray);
-    }
- 
-    /* bio */ 
-    .bio {
-      font-size: 0.95rem;
-      color: var(--dark);
-      max-width: 104ch;
-      animation: fadeIn 0.9s ease 0.25s both;
-    }
- 
-    .bio a {
+
+    a {
       color: var(--secondary);
       text-decoration: none;
       border-bottom: 1px solid var(--highlight);
-      transition: border-color 0.2s, color 0.2s;
+      transition: color 0.2s, border-color 0.2s;
     }
-    .bio a:hover {
+    a:hover { color: var(--tertiary); border-color: var(--secondary); }
+
+    /* hero: photo | name + contact | cube */
+    .hero {
+      display: grid;
+      grid-template-areas:
+        "photo name cube"
+        "photo mail cube";
+      grid-template-columns: auto 1fr auto; /* photo flush left, cube flush right */
+      grid-template-rows: auto 1fr;         /* name row hugs the text, mail row takes the rest */
+      column-gap: 3rem;
+      align-items: start;
+      justify-items: start;
+      width: 100%;
+      max-width: var(--content-width);
+      text-align: left;
+    }
+
+    .headshot { grid-area: photo; width: var(--photo-size); height: var(--photo-size); }
+
+    h1 {
+      grid-area: name;
+      font-family: 'IM Fell DW Pica', serif;
+      font-weight: normal;
+      font-size: clamp(2.3rem, 4vw, 2.6rem);
+      line-height: 1; /* top of the letters lines up with the top of the photo */
+      letter-spacing: 0.06em;
       color: var(--tertiary);
-      border-color: var(--secondary);
+      white-space: nowrap;
     }
- 
-    /* links */ 
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.2rem 0;
-      animation: fadeIn 0.9s ease 0.4s both;
-    }
- 
-    .links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+
+    .tagline {
+      grid-area: mail;
+      margin-top: 0.55rem;
+      font-size: 0.85rem;
       color: var(--darkgray);
-      text-decoration: none;
-      padding: 0.35rem 0.75rem;
-      border: 1px solid transparent;
-      border-radius: 2px;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
     }
-    .links a svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-      transition: fill 0.2s;
+
+    /* the cube's 22 text rows are sized to match the photo's height, times --cube-scale */
+    .cube-wrap {
+      --cube-scale: 1.15; /* 1 = photo height; bigger grows it up and to the left */
+      grid-area: cube;
+      align-self: end; /* bottom flush with the photo */
+      margin-top: calc(var(--photo-size) * (1 - var(--cube-scale))); /* extra height rises up instead of pushing the bio down */
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: calc(var(--photo-size) * var(--cube-scale) / (22 * 1.15)); /* 22 rows x 1.15 line-height */
+      line-height: 1.15;
+      letter-spacing: 0.04em;
+      white-space: pre;
+      color: var(--accent);
+      opacity: 0.72;
+      user-select: none;
     }
-    .links a:hover {
-      color: var(--secondary);
-      border-color: var(--gray);
-      
+
+    .bio { max-width: var(--content-width); font-size: 0.95rem; }
+
+    /* medium screens: the cube drops below the photo and name */
+    @media (max-width: 1020px) {
+      .hero {
+        grid-template-areas:
+          "photo name"
+          "photo mail"
+          "cube  cube";
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+      .cube-wrap { justify-self: center; margin-top: 2rem; }
     }
- 
+
+    /* phones: stack everything */
+    @media (max-width: 700px) {
+      .hero {
+        grid-template-areas: "cube" "photo" "name" "mail";
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        justify-items: center;
+        text-align: center;
+      }
+      .headshot { margin-bottom: 1rem; }
+      .cube-wrap { --cube-scale: 1; margin-top: 0; }
+    }
   </style>
 </head>
 <body>
-<div class="page">
   <main>
-    <div class="cube-wrap" id="cube" aria-hidden="true"></div>
- 
-    <div class="name-block">
+    <header class="hero">
       <h1>Renier Joubert</h1>
-      <p class="tagline">mail:  renier@renierj.dev</p>
-    </div>
- 
+      <img class="headshot" src="headshot_clean_v2.jpg" alt="headshot" width="220" height="220">
+      <p class="tagline">
+        mail: renier@renierj.dev<br>
+        github: <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">RenierJoubert</a>
+      </p>
+      <div class="cube-wrap" id="cube" aria-hidden="true"></div>
+    </header>
+
     <p class="bio">
-          Hi, I'm Renier and I'm currently in my fourth year studying Mathematics and Computer Science @ UBC. During this fall semester, a lot of my time has been wrapped up in my Real Analysis and Group Theory classes. But in my time outside of class I have been developing an Ultimate Tic-Tac-Toe engine in C++, trying to hone my Python skills by working on some minor data analysis projects with the <a href="https://ubcgrades.com/" target="_blank" rel="noopener">ubc grades data</a>, and working on reading more classics; I just started Notes from Undergound. All of my technical writing and course notes can be found in my <a href="https://renierj.xyz" target="_blank" rel="noopener">second brain</a>, and the rest of my projects are all on my GitHub, although I plan to present them here in the near future. 
+      Hi, I'm Renier and I'm currently in my fourth year studying Mathematics and Computer Science @ UBC.
+      During this fall semester, a lot of my time has been wrapped up in my Real Analysis and Group Theory classes.
+      But in my time outside of class I have been developing an Ultimate Tic-Tac-Toe engine in C++,
+      trying to hone my Python skills by working on some minor data analysis projects with the
+      <a href="https://ubcgrades.com/" target="_blank" rel="noopener">ubc grades data</a>,
+      and working on reading more classics; I just started Notes from Undergound.
+      All of my technical writing and course notes can be found in my
+      <a href="https://renierj.xyz" target="_blank" rel="noopener">second brain</a>,
+      and the rest of my projects are all on my GitHub, although I plan to present them here in the near future.
     </p>
- 
-    <nav class="links">
-      
-      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener" aria-label="Git / GitHub">
-        <svg viewBox="0 0 92 92" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M90.156 41.965 50.036 1.848a5.918 5.918 0 0 0-8.372 0l-8.328 8.332 10.566 10.566a7.03 7.03 0 0 1 7.23 1.684 7.043 7.043 0 0 1 1.679 7.265l10.187 10.184a7.028 7.028 0 0 1 7.268 1.673 7.044 7.044 0 0 1 0 9.957 7.044 7.044 0 0 1-9.96 0 7.05 7.05 0 0 1-1.528-7.661l-9.5-9.497V59.36a7.044 7.044 0 0 1 1.86 11.29 7.04 7.04 0 0 1-9.957 0 7.044 7.044 0 0 1 0-9.957 7.053 7.053 0 0 1 2.304-1.539V32.926a7.035 7.035 0 0 1-2.304-1.535 7.05 7.05 0 0 1-1.54-7.698L29.906 13.128 1.851 41.18a5.92 5.92 0 0 0 0 8.372l40.12 40.122a5.923 5.923 0 0 0 8.375 0l39.81-39.81a5.92 5.92 0 0 0 0-8.899"/>
-        </svg>
-      </a>
-    </nav>
-  </main> 
-</div>
- 
+  </main>
+
 <script>
 // Cube Rendering 
 (function () {
-  const W = 52, H = 22;          // canvas size in characters
+  const W = 44, H = 22;          // canvas size in characters (44 = widest the cube ever gets, no dead space)
   const CHARS = '.,-~:;=!*#$@'; // brightness map
  
   let A = 0.5, B = 0.4, C = 0.3; // rotation angles
