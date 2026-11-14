@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /> 
-  <meta name="viewport" content="width=1100" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Renier Joubert" />
   <title>Renier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +37,7 @@
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       scrollbar-width: none;
-      -webkit-text-size-adjust: 100%; 
+      -webkit-text-size-adjust: 100%; /* stop mobile browsers from enlarging the bio text */
       text-size-adjust: 100%;
     }
 
@@ -60,15 +60,16 @@
     main { 
       display: flex; 
       flex-direction: column; 
-      gap: 1.6rem;   
+      gap: 1.6rem;
       align-items: center;
+      container-type: inline-size; 
     }
  
     /* the cube */ 
     .cube-wrap {
       --cube-scale: 1.15;  
       font-family: 'IBM Plex Mono', monospace;
-      font-size: calc(220px * var(--cube-scale) / (22 * 1.15));  
+      font-size: calc(var(--photo) * var(--cube-scale) / (22 * 1.15)); 
       line-height: 1.15;
       color: var(--accent);
       opacity: 0.72;
@@ -86,80 +87,52 @@
     h1 {
       font-family: 'IM Fell DW Pica';
       font-weight: 500;
-      font-size: clamp(2.3rem, 4vw, 2.6rem);
+      font-size: calc(39 * var(--u));
       color: var(--tertiary);
       letter-spacing: 0.06em;
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.06em;
       white-space: nowrap;
     }
  
     .tagline {
       font-family: 'Red Hat Mono', monospace; 
-      font-size: 0.85rem;
+      font-size: calc(12.75 * var(--u));
       color: var(--darkgray);
     }
  
     /* bio */ 
     .bio {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      text-align: justify;
       color: var(--dark);
       max-width: var(--content-width);
       animation: fadeIn 0.9s ease 0.25s both;
     }
  
-    .bio a {
+    .bio a, .tagline a {
       color: var(--secondary);
       text-decoration: none;
       border-bottom: 1px solid var(--highlight);
       transition: border-color 0.2s, color 0.2s;
     }
-    .bio a:hover {
+    .bio a:hover, .tagline a:hover {
       color: var(--tertiary);
       border-color: var(--secondary);
     }
  
-    /* links */ 
-    .links {
-      margin-top: 1.2rem;  
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.2rem 0;
-      animation: fadeIn 0.9s ease 0.4s both;
-    }
- 
-    .links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--darkgray);
-      text-decoration: none;
-      padding: 0.35rem 0.75rem;
-      border: 1px solid transparent;
-      border-radius: 2px;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-    }
-    .links a svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
-      transition: fill 0.2s;
-    }
-    .links a:hover {
-      color: var(--secondary);
-      border-color: var(--gray);
-      
-    }
-
     /* hero: photo | name + mail | cube */
     .hero {
+      --hero-min: 860;
+      --u: min(1px, 100cqi / var(--hero-min));
+      --photo: calc(220 * var(--u));
+
       display: grid;
       grid-template-areas:
         "photo  name  cube"
         "photo  mail  cube";
-      grid-template-columns: auto 1fr auto;  
-      grid-template-rows: auto 1fr;  
-      column-gap: 3rem;
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: auto 1fr;
+      column-gap: calc(45 * var(--u));
       align-items: start;               
       justify-items: start;
       text-align: left;
@@ -167,38 +140,17 @@
       max-width: var(--content-width);  
     }
 
-    .headshot  { grid-area: photo; }
-    .hero h1   { grid-area: name; line-height: 1; }      
-    .tagline   { grid-area: mail; margin-top: 0.4rem; }  
+    .headshot  { grid-area: photo; width: var(--photo); height: var(--photo); }
+    .hero h1   { grid-area: name; line-height: 1; }
+    .tagline   { grid-area: mail; margin-top: 0.47em; }
     .cube-wrap {
       grid-area: cube;
-      align-self: end;                                   
-      margin-top: calc(220px * (1 - var(--cube-scale)));  
+      align-self: end;                                  
+      margin-top: calc(var(--photo) * (1 - var(--cube-scale)));
     }
 
-    @media (max-width: 1020px) {
-      .hero {
-        grid-template-areas:
-          "photo  name"
-          "photo  mail"
-          "cube   cube";
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto 1fr auto;
-      }
-      .cube-wrap { justify-self: center; margin-top: 2rem; }
-    }
-
-    /* stack everything on mobile */
     @media (max-width: 700px) {
-      .hero {
-        grid-template-areas: "cube" "photo" "name" "mail";
-        grid-template-columns: 1fr;
-        grid-template-rows: none;
-        justify-items: center;
-        text-align: center;
-      }
-      .headshot { margin-bottom: 1rem; }
-      .cube-wrap { margin-top: 0; --cube-scale: 1; }  
+      .page { padding-left: 1rem; padding-right: 1rem; }
     }
  
   </style>
@@ -211,10 +163,10 @@
       <h1>Renier Joubert</h1>
       <img class="headshot" src="headshot_clean_v2.jpg" alt="headshot" width="220" height="220">
       <p class="tagline">
-        mail: renier@renierj.dev
-        
+        mail: renier@renierj.dev<br>
+        github: <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">RenierJoubert</a>
       </p>
-      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">GitHub</a>
+      <div class="cube-wrap" id="cube" aria-hidden="true"></div>
 
 
     </header>
