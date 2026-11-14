@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="UTF-8" /> 
+  <meta name="viewport" content="width=1100" />
   <meta name="description" content="Renier Joubert" />
   <title>Renier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +37,7 @@
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       scrollbar-width: none;
-      -webkit-text-size-adjust: 100%; /* stop mobile browsers enlarging the bio text */
+      -webkit-text-size-adjust: 100%; 
       text-size-adjust: 100%;
     }
 
@@ -60,16 +60,15 @@
     main { 
       display: flex; 
       flex-direction: column; 
-      gap: 1.6rem;
+      gap: 1.6rem;   
       align-items: center;
-      container-type: inline-size; /* lets the hero size itself off main's width (cqi) */
     }
  
     /* the cube */ 
     .cube-wrap {
       --cube-scale: 1.15;  
       font-family: 'IBM Plex Mono', monospace;
-      font-size: calc(var(--photo) * var(--cube-scale) / (22 * 1.15)); /* 22 rows x 1.15 line-height */
+      font-size: calc(220px * var(--cube-scale) / (22 * 1.15));  
       line-height: 1.15;
       color: var(--accent);
       opacity: 0.72;
@@ -87,35 +86,34 @@
     h1 {
       font-family: 'IM Fell DW Pica';
       font-weight: 500;
-      font-size: calc(39 * var(--u));
+      font-size: clamp(2.3rem, 4vw, 2.6rem);
       color: var(--tertiary);
       letter-spacing: 0.06em;
-      margin-bottom: 0.06em;
+      margin-bottom: 0.15rem;
       white-space: nowrap;
     }
  
     .tagline {
       font-family: 'Red Hat Mono', monospace; 
-      font-size: calc(12.75 * var(--u));
+      font-size: 0.85rem;
       color: var(--darkgray);
     }
  
     /* bio */ 
     .bio {
-      font-size: 0.9rem;
-      text-align: justify;
+      font-size: 0.95rem;
       color: var(--dark);
       max-width: var(--content-width);
       animation: fadeIn 0.9s ease 0.25s both;
     }
  
-    .bio a, .tagline a {
+    .bio a {
       color: var(--secondary);
       text-decoration: none;
       border-bottom: 1px solid var(--highlight);
       transition: border-color 0.2s, color 0.2s;
     }
-    .bio a:hover, .tagline a:hover {
+    .bio a:hover {
       color: var(--tertiary);
       border-color: var(--secondary);
     }
@@ -155,40 +153,52 @@
 
     /* hero: photo | name + mail | cube */
     .hero {
-      /* --u is one "design pixel". It is 1px wherever the full row fits; on narrower
-         screens it shrinks so photo, name, mail and cube all scale down together and
-         the row always fits exactly. --hero-min is the row's natural width in px. */
-      --hero-min: 860;
-      --u: min(1px, 100cqi / var(--hero-min));
-      --photo: calc(220 * var(--u));
-
       display: grid;
       grid-template-areas:
         "photo  name  cube"
         "photo  mail  cube";
-      grid-template-columns: auto 1fr auto;
-      grid-template-rows: auto 1fr;
-      column-gap: calc(45 * var(--u));
+      grid-template-columns: auto 1fr auto;  
+      grid-template-rows: auto 1fr;  
+      column-gap: 3rem;
       align-items: start;               
       justify-items: start;
       text-align: left;
       width: 100%;
-      max-width: var(--content-width);  /* make misc contents same width as the bio */
+      max-width: var(--content-width);  
     }
 
-    .headshot  { grid-area: photo; width: var(--photo); height: var(--photo); }
-    .hero h1   { grid-area: name; line-height: 1; }
-    .tagline   { grid-area: mail; margin-top: 0.47em; }
+    .headshot  { grid-area: photo; }
+    .hero h1   { grid-area: name; line-height: 1; }      
+    .tagline   { grid-area: mail; margin-top: 0.4rem; }  
     .cube-wrap {
       grid-area: cube;
-      align-self: end;                                   /* bottom flush with my headshot */
-      margin-top: calc(var(--photo) * (1 - var(--cube-scale)));
+      align-self: end;                                   
+      margin-top: calc(220px * (1 - var(--cube-scale)));  
     }
 
-    /* phones: thinner side margins so the hero can be as big as possible.
-       The bio keeps its normal font size and just wraps to the narrower column. */
+    @media (max-width: 1020px) {
+      .hero {
+        grid-template-areas:
+          "photo  name"
+          "photo  mail"
+          "cube   cube";
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+      .cube-wrap { justify-self: center; margin-top: 2rem; }
+    }
+
+    /* stack everything on mobile */
     @media (max-width: 700px) {
-      .page { padding-left: 1rem; padding-right: 1rem; }
+      .hero {
+        grid-template-areas: "cube" "photo" "name" "mail";
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        justify-items: center;
+        text-align: center;
+      }
+      .headshot { margin-bottom: 1rem; }
+      .cube-wrap { margin-top: 0; --cube-scale: 1; }  
     }
  
   </style>
@@ -201,10 +211,10 @@
       <h1>Renier Joubert</h1>
       <img class="headshot" src="headshot_clean_v2.jpg" alt="headshot" width="220" height="220">
       <p class="tagline">
-        mail: renier@renierj.dev<br>
-        github: <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">RenierJoubert</a>
+        mail: renier@renierj.dev
+        
       </p>
-      <div class="cube-wrap" id="cube" aria-hidden="true"></div>
+      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">GitHub</a>
 
 
     </header>
@@ -214,14 +224,6 @@
           Hi, I'm Renier and I'm currently in my fourth year studying Mathematics and Computer Science @ UBC. During this fall semester, a lot of my time has been wrapped up in my Real Analysis and Group Theory classes. But in my time outside of class I have been developing an Ultimate Tic-Tac-Toe engine in C++, trying to hone my Python skills by working on some minor data analysis projects with the <a href="https://ubcgrades.com/" target="_blank" rel="noopener">ubc grades data</a>, and working on reading more classics; I just started Notes from Undergound. All of my technical writing and course notes can be found in my <a href="https://renierj.xyz" target="_blank" rel="noopener">second brain</a>, and the rest of my projects are all on my GitHub, although I plan to present them here in the near future. 
     </p>
  
-    <nav class="links">
-      
-      <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener" aria-label="Git / GitHub">
-        <svg viewBox="0 0 92 92" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M90.156 41.965 50.036 1.848a5.918 5.918 0 0 0-8.372 0l-8.328 8.332 10.566 10.566a7.03 7.03 0 0 1 7.23 1.684 7.043 7.043 0 0 1 1.679 7.265l10.187 10.184a7.028 7.028 0 0 1 7.268 1.673 7.044 7.044 0 0 1 0 9.957 7.044 7.044 0 0 1-9.96 0 7.05 7.05 0 0 1-1.528-7.661l-9.5-9.497V59.36a7.044 7.044 0 0 1 1.86 11.29 7.04 7.04 0 0 1-9.957 0 7.044 7.044 0 0 1 0-9.957 7.053 7.053 0 0 1 2.304-1.539V32.926a7.035 7.035 0 0 1-2.304-1.535 7.05 7.05 0 0 1-1.54-7.698L29.906 13.128 1.851 41.18a5.92 5.92 0 0 0 0 8.372l40.12 40.122a5.923 5.923 0 0 0 8.375 0l39.81-39.81a5.92 5.92 0 0 0 0-8.899"/>
-        </svg>
-      </a>
-    </nav>
   </main> 
 </div>
  
