@@ -109,15 +109,27 @@
       animation: fadeIn 0.9s ease 0.25s both;
     }
  
-    .bio a, .tagline a {
+    .bio a, .tagline a, .copy-email {
       color: var(--secondary);
       text-decoration: none;
       border-bottom: 1px solid var(--highlight);
       transition: border-color 0.2s, color 0.2s;
     }
-    .bio a:hover, .tagline a:hover {
+    .bio a:hover, .tagline a:hover, .copy-email:hover {
       color: var(--tertiary);
       border-color: var(--secondary);
+    }
+
+    /* copies the address on click */
+    .copy-email {
+      font: inherit;
+      line-height: normal; /* keep the underline at the same height as the <a> links */
+      background: none;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      padding: 0;
+      cursor: pointer;
     }
  
     /* hero: photo | name + mail | cube */
@@ -140,7 +152,7 @@
       max-width: var(--content-width);  
     }
 
-    .headshot  { grid-area: photo; width: var(--photo); height: var(--photo); }
+    .headshot  { grid-area: photo; width: var(--photo); height: var(--photo); object-fit: cover; }
     .hero h1   { grid-area: name; line-height: 1; }
     .tagline   { grid-area: mail; margin-top: 0.47em; }
     .cube-wrap {
@@ -161,9 +173,11 @@
     <header class="hero">
       
       <h1>Renier Joubert</h1>
-      <img class="headshot" src="headshot_clean_v2.jpg" alt="headshot" width="220" height="220">
+      <img class="headshot" src="hike_crop.jpg" alt="headshot" width="220" height="220">
       <p class="tagline">
-        mail: renier@renierj.dev<br>
+        University of British Columbia<br>
+        Class of 2028<br>
+        mail: <button type="button" class="copy-email" data-email="renier@renierj.dev" title="click to copy" aria-live="polite">renier@renierj.dev</button><br>
         github: <a href="https://github.com/RenierJoubert" target="_blank" rel="noopener">RenierJoubert</a>
       </p>
       <div class="cube-wrap" id="cube" aria-hidden="true"></div>
@@ -173,14 +187,53 @@
     
  
     <p class="bio">
-          Hi, I'm Renier and I'm currently in my fourth year studying Mathematics and Computer Science @ UBC. During this fall semester, a lot of my time has been wrapped up in my Real Analysis and Group Theory classes. But in my time outside of class I have been developing an Ultimate Tic-Tac-Toe engine in C++, trying to hone my Python skills by working on some minor data analysis projects with the <a href="https://ubcgrades.com/" target="_blank" rel="noopener">ubc grades data</a>, and working on reading more classics; I just started Notes from Undergound. All of my technical writing and course notes can be found in my <a href="https://renierj.xyz" target="_blank" rel="noopener">second brain</a>, and the rest of my projects are all on my GitHub, although I plan to present them here in the near future. 
+          Hi, I'm Renier and I'm currently in my fourth year studying Mathematics and Computer Science @ UBC. During this fall semester, 
+          a lot of my time has been wrapped up in my Real Analysis and Group Theory classes. But in my time outside of class I have been developing an Ultimate Tic-Tac-Toe engine in C++, 
+          trying to hone my Python skills by working on some minor data analysis projects with the <a href="https://ubcgrades.com/" target="_blank" rel="noopener">ubc grades data</a>, and working on reading more classics; 
+          I just started Notes from Undergound. All of my technical writing and course notes can be found in my <a href="https://renierj.xyz" target="_blank" rel="noopener">second brain</a>, 
+          and the rest of my projects are all on my GitHub, although I plan to present them here in the near future. Hobbies of mine include electric and acoustic guitar, skiing, and chess.
     </p>
  
   </main> 
 </div>
  
 <script>
-// Cube Rendering 
+// Copy email on click
+(function () {
+  const btn = document.querySelector('.copy-email');
+  const email = btn.dataset.email;
+  let timer;
+
+  function fallbackCopy() {
+    // for browsers/contexts without the async clipboard API 
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject();
+  }
+
+  btn.addEventListener('click', function () {
+    const copy = navigator.clipboard && window.isSecureContext
+      ? navigator.clipboard.writeText(email).catch(fallbackCopy)
+      : fallbackCopy();
+
+    copy.then(
+      () => { btn.textContent = 'copied to clipboard'; },
+      () => { btn.textContent = 'copy failed'; }
+    ).finally(() => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { btn.textContent = email; }, 1500);
+    });
+  });
+})();
+
+// Cube Rendering
 (function () {
   const W = 44, H = 22;          
   const CHARS = '.,-~:;=!*#$@'; // brightness map
